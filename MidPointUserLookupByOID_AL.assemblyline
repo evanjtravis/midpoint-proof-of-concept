@@ -1,0 +1,721 @@
+<?xml version="1.0" encoding="UTF-8"?><MetamergeConfig Cycle="26" UUID="a0d746f2-b318-4b86-aa8e-c36f22e9362d" created="Wed Apr 08 16:21:37 CDT 2015" createdBy="ejtravis" main="MidPointUserLookupByOID_AL" modified="Tue Jun 30 16:28:09 CDT 2015" modifiedBy="ejtravis" project="CentralRegistryIdentity" version="7.1.1">
+    <AssemblyLine name="MidPointUserLookupByOID_AL">
+        <ModTime>1435699689196</ModTime>
+        <Settings/>
+        <Hooks/>
+        <CheckpointConfig/>
+        <SandboxConfig/>
+        <SimulationConfig>
+            <SimulationStates>
+                <Component name="query_args" state="Enabled"/>
+                <Component name="HTTPClient_Midpoint" state="Enabled"/>
+                <Component name="midPoint_query_successful" state="Enabled"/>
+                <Component name="get_return_xml_attributes" state="Enabled"/>
+                <Component name="dumpWork" state="Enabled"/>
+            </SimulationStates>
+            <ProxySettings/>
+        </SimulationConfig>
+        <LogConfig/>
+        <ContainerEF name="EntryFeedContainer">
+            <ModTime>1432669736541</ModTime>
+        </ContainerEF>
+        <ContainerDF name="DataFlowContainer">
+            <ModTime>1435699689196</ModTime>
+            <ALMap name="query_args">
+                <InheritFrom>[no inheritance]</InheritFrom>
+                <ModTime>1434651388648</ModTime>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1434651388648</ModTime>
+                    <AttributeMapItem>
+                        <Name>oid</Name>
+                        <Type>advanced</Type>
+                        <Script><![CDATA[// Evan's OID, used to query midPoint
+ret.value = "c83042a3-f138-407e-af8b-f560c8aedb8f"]]></Script>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <State>Enabled</State>
+            </ALMap>
+            <Connector name="HTTPClient_Midpoint">
+                <InheritFrom>system:/Connectors/ibmdi.HTTPClient</InheritFrom>
+                <ModTime>1435699689196</ModTime>
+                <ConnectorMode>Lookup</ConnectorMode>
+                <ConnectorState>Enabled</ConnectorState>
+                <Configuration>
+                    <UserComment>HTTP URL is appended with work.oid at runtime</UserComment>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1435699689196</ModTime>
+                    <parameter name="contentType">@SUBSTITUTE{property.CentralRegistryIdentity:midpointHttpContentType}</parameter>
+                    <parameter name="debug">false</parameter>
+                    <parameter name="outbody"/>
+                    <parameter name="password">@SUBSTITUTE{property.CentralRegistryIdentity:midpointPassword}</parameter>
+                    <parameter name="url">@SUBSTITUTE{property:CentralRegistryIdentity.midPoint_hostname}:{property:CentralRegistryIdentity.midPoint_port}{property:CentralRegistryIdentity.midPoint_PATH_userOID}{work.oid}</parameter>
+                    <parameter name="username">@SUBSTITUTE{property.CentralRegistryIdentity:midpointUsername}</parameter>
+                </Configuration>
+                <Parser>
+                    <InheritFrom>[no inheritance]</InheritFrom>
+                    <ModTime>1432669473899</ModTime>
+                </Parser>
+                <AttributeMap name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1432669900106</ModTime>
+                    <AttributeMapItem>
+                        <Name>http.bodyAsString</Name>
+                        <Type>advanced</Type>
+                        <Script>conn.getString("http.bodyAsString")</Script>
+                        <Simple>http.bodyAsString</Simple>
+                    </AttributeMapItem>
+                    <AttributeMapItem>
+                        <Name>http.responseCode</Name>
+                        <Type>advanced</Type>
+                        <Script>conn.getString("http.responseCode")</Script>
+                        <Simple>http.responseCode</Simple>
+                    </AttributeMapItem>
+                </AttributeMap>
+                <AttributeMap name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1428528113470</ModTime>
+                </AttributeMap>
+                <DeltaSettings/>
+                <Schema name="Input">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1429210219529</ModTime>
+                    <SchemaItem>
+                        <Name>http.Allow</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.Connection</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.Content-Length</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.Date</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.Server</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.body</Name>
+                        <Syntax>java.lang.StringBuffer</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.body.response</Name>
+                        <Syntax>java.lang.StringBuffer</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.bodyAsBytes</Name>
+                        <Syntax>[B</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.bodyAsString</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.responseCode</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.responseMsg</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <Schema name="Output">
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1429210219529</ModTime>
+                    <SchemaItem>
+                        <Name>http.Allow</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.Connection</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.Content-Length</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.Date</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.Server</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.body</Name>
+                        <Syntax>java.lang.StringBuffer</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.body.response</Name>
+                        <Syntax>java.lang.StringBuffer</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.bodyAsBytes</Name>
+                        <Syntax>[B</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.bodyAsString</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.responseCode</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                    <SchemaItem>
+                        <Name>http.responseMsg</Name>
+                        <Syntax>java.lang.String</Syntax>
+                    </SchemaItem>
+                </Schema>
+                <LinkCriteria>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1429207660214</ModTime>
+                </LinkCriteria>
+                <Hooks>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ModTime>1428528113470</ModTime>
+                </Hooks>
+                <CheckpointConfig/>
+                <SandboxConfig/>
+                <Reconnect>
+                    <InheritFrom>[parent]</InheritFrom>
+                    <ReconnectRules/>
+                </Reconnect>
+                <Operations/>
+                <PoolDefinition>
+                    <InheritFrom>[parent]</InheritFrom>
+                </PoolDefinition>
+                <PoolInstance/>
+            </Connector>
+            <Branch name="midPoint_query_successful">
+                <ModTime>1434651142885</ModTime>
+                <Connector name="get_return_xml_attributes">
+                    <InheritFrom>system:/Connectors/ibmdi.FormEntryConnector</InheritFrom>
+                    <ModTime>1434651142885</ModTime>
+                    <ConnectorMode>Iterator</ConnectorMode>
+                    <ConnectorState>Enabled</ConnectorState>
+                    <Configuration>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1432671582404</ModTime>
+                        <parameter name="entryRawData"><![CDATA[@SUBSTITUTE{work.http.bodyAsString}
+]]></parameter>
+                    </Configuration>
+                    <Parser>
+                        <InheritFrom>system:/Parsers/ibmdi.XSLbasedXMLParser</InheritFrom>
+                        <ModTime>1434651142885</ModTime>
+                        <parameter name="In_XSL_isFile">false</parameter>
+                        <parameter name="InputXSL"><![CDATA[<?xml version="1.0" ?>
+<XSL:stylesheet
+    xmlns:XSL="http://www.w3.org/1999/XSL/Transform"
+    version="1.0">
+    <XSL:output method="xml" indent="yes" />
+<XSL:template match="user">
+    <DocRoot>
+        <Entry>
+            <Attribute name="oid">
+                <Value><XSL:value-of select="@oid"/></Value>
+            </Attribute>
+            <Attribute name="name">
+                <Value><XSL:value-of select="name" /></Value>
+            </Attribute>
+<!-- SECONDARY USER ATTRIBUTES SECTION -->
+            <XSL:for-each select="extension">
+                <Attribute name="regtoken">
+                    <Value><XSL:value-of select="regtoken"/></Value>
+                </Attribute>
+                <Attribute name="messageAction">
+                    <Value><XSL:value-of select="messageAction"/></Value>
+                </Attribute>
+                <Attribute name="userName">
+                    <Value><XSL:value-of select="userName"/></Value>
+                </Attribute>
+                <Attribute name="mappedToUin">
+                    <Value><XSL:value-of select="mappedToUin"/></Value>
+                </Attribute>
+                <Attribute name="confidentialityInd">
+                    <Value><XSL:value-of select="confidentialityInd"/></Value>
+                </Attribute>
+                <Attribute name="entityInd">
+                    <Value><XSL:value-of select="entityInd"/></Value>
+                </Attribute>
+                <Attribute name="birthDate">
+                    <Value><XSL:value-of select="birthDate"/></Value>
+                </Attribute>
+                <Attribute name="genderType">
+                    <Value><XSL:value-of select="genderType"/></Value>
+                </Attribute>
+                <Attribute name="dataOrigin">
+                    <Value><XSL:value-of select="dataOrigin"/></Value>
+                </Attribute>
+                <Attribute name="bannerEmails">
+                    <Value><XSL:value-of select="bannerEmails"/></Value>
+                </Attribute>
+                <Attribute name="bannerUdcId">
+                    <Value><XSL:value-of select="bannerUdcId"/></Value>
+                </Attribute>
+                <Attribute name="bannerPIDM">
+                    <Value><XSL:value-of select="bannerPIDM"/></Value>
+                </Attribute>
+                <Attribute name="institutionalRole">
+                    <Value><XSL:value-of select="institutionalRole"/></Value>
+                </Attribute>
+            </XSL:for-each>
+<!-- ACTIVATION SECTION -->
+            <XSL:for-each select="activation">
+                <Attribute name="ACTIVATION.administrativeStatus">
+                    <Value><XSL:value-of select="administrativeStatus"/></Value>
+                </Attribute>
+                <Attribute name="ACTIVATION.effectiveStatus">
+                    <Value><XSL:value-of select="effectiveStatus"/></Value>
+                </Attribute>
+                <Attribute name="ACTIVATION.disableTimestamp">
+                    <Value><XSL:value-of select="disableTimestamp"/></Value>
+                </Attribute>
+                <Attribute name="ACTIVATION.enableTimestamp">
+                    <Value><XSL:value-of select="enableTimestamp"/></Value>
+                </Attribute>
+            </XSL:for-each>
+<!-- PRIMARY USER ATTRIBUTES SECTION -->
+            <Attribute name="fullName">
+                <Value><XSL:value-of select="fullName"/></Value>
+            </Attribute>
+            <Attribute name="givenName">
+                <Value><XSL:value-of select="givenName"/></Value>
+            </Attribute>
+            <Attribute name="familyName">
+                <Value><XSL:value-of select="familyName"/></Value>
+            </Attribute>
+            <Attribute name="additionalName">
+                <Value><XSL:value-of select="additionalName"/></Value>
+            </Attribute>
+            <Attribute name="emailAddress">
+                <Value><XSL:value-of select="emailAddress"/></Value>
+            </Attribute>
+            <Attribute name="employeeNumber">
+                <Value><XSL:value-of select="employeeNumber"/></Value>
+            </Attribute>
+<!-- META SECTION -->
+            <XSL:for-each select="metadata">
+                <Attribute name="META.createTimestamp">
+                    <Value><XSL:value-of select="createTimestamp"/></Value>
+                </Attribute>
+                <Attribute name="META.creator.oid">
+                    <Value><XSL:value-of select="creatorRef/@oid"/></Value>
+                </Attribute>
+                <Attribute name="META.creator.type">
+                    <Value><XSL:value-of select="creatorRef/@type"/></Value>
+                </Attribute>
+                <Attribute name="META.createChannel">
+                    <Value><XSL:value-of select="createChannel"/></Value>
+                </Attribute>
+                <Attribute name="META.modifyTimestamp">
+                    <Value><XSL:value-of select="modifyTimestamp"/></Value>
+                </Attribute>
+                <Attribute name="META.modifyChannel">
+                    <Value><XSL:value-of select="modifyChannel"/></Value>
+                </Attribute>
+            </XSL:for-each>
+<!-- PASSWORD SECTION -->
+            <XSL:for-each select="credentials">
+                <XSL:for-each select="password">
+                    <XSL:for-each select="value">
+                        <XSL:for-each select="encryptedData">
+                            <Attribute name="PASSWORD.encryptionMethod">
+                                <Value><XSL:value-of select="encryptionMethod/algorithm"/></Value>
+                            </Attribute>
+                            <Attribute name="PASSWORD.keyName">
+                                <Value><XSL:value-of select="keyInfo/keyName"/></Value>
+                            </Attribute>
+                            <Attribute name="PASSWORD.cipherValue">
+                                <Value><XSL:value-of select="cipherData/cipherValue"/></Value>
+                            </Attribute>
+                        </XSL:for-each>
+                    </XSL:for-each>
+                </XSL:for-each>
+            </XSL:for-each>
+        </Entry>
+    </DocRoot>
+</XSL:template>
+</XSL:stylesheet>]]></parameter>
+                        <parameter name="InputXSL_File"/>
+                        <parameter name="isnamespaceaware">false</parameter>
+                        <parameter name="isvalidating">false</parameter>
+                        <parameter name="omitxmldeclaration">false</parameter>
+                    </Parser>
+                    <AttributeMap name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ModTime>1432745233607</ModTime>
+                        <AttributeMapItem>
+                            <Name>ACTIVATION.administrativeStatus</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("ACTIVATION.administrativeStatus")</Script>
+                            <Simple>ACTIVATION.administrativeStatus</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ACTIVATION.disableTimestamp</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("ACTIVATION.disableTimestamp")</Script>
+                            <Simple>ACTIVATION.disableTimestamp</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ACTIVATION.effectiveStatus</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("ACTIVATION.effectiveStatus")</Script>
+                            <Simple>ACTIVATION.effectiveStatus</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>ACTIVATION.enableTimestamp</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("ACTIVATION.enableTimestamp")</Script>
+                            <Simple>ACTIVATION.enableTimestamp</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>META.createChannel</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("META.createChannel")</Script>
+                            <Simple>META.createChannel</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>META.createTimestamp</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("META.createTimestamp")</Script>
+                            <Simple>META.createTimestamp</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>META.creator.oid</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("META.creator.oid")</Script>
+                            <Simple>META.creator.oid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>META.creator.type</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("META.creator.type")</Script>
+                            <Simple>META.creator.type</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>META.modifyChannel</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("META.modifyChannel")</Script>
+                            <Simple>META.modifyChannel</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>META.modifyTimestamp</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("META.modifyTimestamp")</Script>
+                            <Simple>META.modifyTimestamp</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>PASSWORD.cipherValue</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("PASSWORD.cipherValue")</Script>
+                            <Simple>PASSWORD.cipherValue</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>PASSWORD.encryptionMethod</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("PASSWORD.encryptionMethod")</Script>
+                            <Simple>PASSWORD.encryptionMethod</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>PASSWORD.keyName</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("PASSWORD.keyName")</Script>
+                            <Simple>PASSWORD.keyName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>additionalName</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("additionalName")</Script>
+                            <Simple>additionalName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>bannerEmails</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("bannerEmails")</Script>
+                            <Simple>bannerEmails</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>bannerPIDM</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("bannerPIDM")</Script>
+                            <Simple>bannerPIDM</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>bannerUdcId</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("bannerUdcId")</Script>
+                            <Simple>bannerUdcId</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>birthDate</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("birthDate")</Script>
+                            <Simple>extension.gen808:birthDate</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>confidentialityInd</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("confidentialityInd")</Script>
+                            <Simple>extension.gen808:confidentialityInd</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>dataOrigin</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("dataOrigin")</Script>
+                            <Simple>dataOrigin</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>emailAddress</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("emailAddress")</Script>
+                            <Simple>emailAddress</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>employeeNumber</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("employeeNumber")</Script>
+                            <Simple>employeeNumber</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>entityInd</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("entityInd")</Script>
+                            <Simple>entityInd</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>familyName</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("familyName")</Script>
+                            <Simple>familyName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>fullName</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("fullName")</Script>
+                            <Simple>fullName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>genderType</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("genderType")</Script>
+                            <Simple>genderType</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>givenName</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("givenName")</Script>
+                            <Simple>givenName</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>institutionalRole</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("institutionalRole")</Script>
+                            <Simple>extension.gen808:institutionalRole</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>mappedToUin</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("mappedToUin")</Script>
+                            <Simple>mappedToUin</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>messageAction</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("messageAction")</Script>
+                            <Simple>messageAction</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>name</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("name")</Script>
+                            <Simple>name</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>oid</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("oid")</Script>
+                            <Simple>oid</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>regtoken</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("regtoken")</Script>
+                            <Simple>regtoken</Simple>
+                        </AttributeMapItem>
+                        <AttributeMapItem>
+                            <Name>userName</Name>
+                            <Type>advanced</Type>
+                            <Enabled>true</Enabled>
+                            <Add>true</Add>
+                            <Modify>true</Modify>
+                            <Script>conn.getString("userName")</Script>
+                            <Simple>userName</Simple>
+                        </AttributeMapItem>
+                    </AttributeMap>
+                    <AttributeMap name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </AttributeMap>
+                    <DeltaSettings>
+                        <WhenToCommit>After every database operation</WhenToCommit>
+                        <RowLocking>SERIALIZABLE</RowLocking>
+                        <ChangeDetectionMode>DETECT_ALL</ChangeDetectionMode>
+                    </DeltaSettings>
+                    <Schema name="Input">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <Schema name="Output">
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Schema>
+                    <LinkCriteria>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </LinkCriteria>
+                    <Hooks>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </Hooks>
+                    <CheckpointConfig/>
+                    <SandboxConfig/>
+                    <Reconnect>
+                        <InheritFrom>[parent]</InheritFrom>
+                        <ReconnectRules/>
+                    </Reconnect>
+                    <Operations/>
+                    <PoolDefinition>
+                        <InheritFrom>[parent]</InheritFrom>
+                    </PoolDefinition>
+                    <PoolInstance/>
+                    <InitializeOption>1</InitializeOption>
+                </Connector>
+                <Conditions>
+                    <BranchCondition>
+                        <LeftHand>http.responseCode</LeftHand>
+                        <Operator>equals</Operator>
+                        <RightHand>200</RightHand>
+                        <Negate>false</Negate>
+                        <CaseSensitive>false</CaseSensitive>
+                        <MatchAny>false</MatchAny>
+                    </BranchCondition>
+                </Conditions>
+                <MatchAny>false</MatchAny>
+                <Enabled>true</Enabled>
+                <Type>0</Type>
+            </Branch>
+            <Script name="dumpWork">
+                <ModTime>1429205743800</ModTime>
+                <parameter name="script"><![CDATA[task.logmsg("###################################################################")
+task.dump(work)
+task.logmsg("###################################################################")]]></parameter>
+            </Script>
+        </ContainerDF>
+        <ThreadOptions/>
+        <Operations/>
+        <InitParams>
+            <Schema name="AssemblyLineInitParams"/>
+        </InitParams>
+    </AssemblyLine>
+</MetamergeConfig>
